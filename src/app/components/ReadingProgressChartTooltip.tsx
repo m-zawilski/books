@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { TooltipProps } from "recharts"
+import { TooltipProps } from "recharts";
 import {
   NameType,
   ValueType,
-} from "recharts/types/component/DefaultTooltipContent"
+} from "recharts/types/component/DefaultTooltipContent";
 
 function ReadingProgressChartTooltip({
   payload,
@@ -19,10 +19,10 @@ function ReadingProgressChartTooltip({
         <p>{`${payload[1].name} : ${payload[1].value}`}</p>
         <p>{`${payload[2]?.name} : ${payload[2]?.value}`}</p>
       </div>
-    )
+    );
   }
 
-  return null
+  return null;
 }
 
-export default ReadingProgressChartTooltip
+export default ReadingProgressChartTooltip;

@@ -1,6 +1,6 @@
-import BookStatistics from "@/app/components/BookStatistics"
-import BookList from "@/app/components/BookList"
-import ReadingProgressChart from "@/app/components/ReadingProgressChart"
+import BookStatistics from "@/app/components/BookStatistics";
+import BookList from "@/app/components/BookList";
+import ReadingProgressChart from "@/app/components/ReadingProgressChart";
 
 export default function Home() {
   return (
@@ -9,5 +9,5 @@ export default function Home() {
       <ReadingProgressChart />
       <BookList />
     </main>
-  )
+  );
 }

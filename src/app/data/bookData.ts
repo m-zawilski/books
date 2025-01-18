@@ -1,4 +1,4 @@
-import Book from "@/app/@types/Book"
+import Book from "@/app/@types/Book";
 
 const bookData: Record<number, Book> = {
   1: {
@@ -49,6 +49,6 @@ const bookData: Record<number, Book> = {
     language: "en",
     type: "fantasy",
   },
-}
+};
 
-export default bookData
+export default bookData;
