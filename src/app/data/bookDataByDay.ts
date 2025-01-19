@@ -35,7 +35,11 @@ const bookDataByDay: BookDataByDay = {
     [
       {
         bookId: 1,
-        count: 180,
+        count: 192,
+      },
+      {
+        bookId: 6,
+        count: 4,
       },
       {
         bookId: 2,
@@ -131,7 +135,7 @@ const bookDataByDay: BookDataByDay = {
       },
       {
         bookId: 5,
-        count: 28,
+        count: 144,
       },
     ],
   ],

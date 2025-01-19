@@ -31,37 +31,71 @@ const BookList = () => {
 
   return (
     <div className="grid grid-cols-2 w-[90%] h-[320px] md:w-[900px] bg-gray-100 rounded-xl overflow-hidden ">
-      <div className="flex flex-col">
+      <div className="flex flex-col overflow-scroll">
         {sortedBooks.map(([id, book]) => {
           const totalPages = book.lastPage - book.startPage;
           const totalReadPages = book.currentPage - book.startPage;
           const procentBookFinished = (totalReadPages / totalPages) * 100;
+          const isFinished = procentBookFinished === 100;
           const isSelected = id === selectedBookId;
 
           return (
             <button
               key={id}
-              className="h-6 bg-gray-300 text-center relative"
+              className={`h-16 ${isSelected ? "bg-gray-300" : "bg-gray-200"} text-center relative`}
               onClick={() => {
                 setSelectedBookId(isSelected ? undefined : id);
               }}
             >
-              <div
-                className={`h-6 absolute ${Math.round(procentBookFinished) === 100 ? "bg-green-400" : "bg-gray-400"}`}
-                style={{
-                  width: `${procentBookFinished}%`,
-                }}
-              />
-              <span className={`relative ${isSelected ? "font-bold" : ""}`}>
-                {book.title}
-              </span>
-              <span className="relative float-end">
-                {procentBookFinished === 100 ? (
-                  <CheckCircleIcon width={24} height={24} color="darkgreen" />
-                ) : (
-                  `${Math.round(procentBookFinished)}%`
-                )}
-              </span>
+              {isFinished ? (
+                <span className="absolute start-1 top-0.5">
+                  <CheckCircleIcon
+                    width={40}
+                    height={40}
+                    className="text-green-600"
+                  />
+                </span>
+              ) : (
+                <span className="absolute start-1 top-0.5 flex">
+                  <div className="relative size-10">
+                    <svg
+                      className="size-full -rotate-90"
+                      viewBox="0 0 36 36"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        className="stroke-current text-gray-200 dark:text-neutral-700"
+                        stroke-width="2"
+                      ></circle>
+
+                      <circle
+                        cx="18"
+                        cy="18"
+                        r="16"
+                        fill="none"
+                        className="stroke-current text-green-600 dark:text-green-500"
+                        stroke-width="2"
+                        stroke-dasharray="100"
+                        stroke-dashoffset={
+                          100 - Math.round(procentBookFinished)
+                        }
+                        stroke-linecap="round"
+                      ></circle>
+                    </svg>
+
+                    <div className="absolute top-1/2 start-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                      <span className="text-center text-xs ">
+                        {Math.round(procentBookFinished)}%
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              )}
+              <p className="px-16">{book.title}</p>
             </button>
           );
         })}
