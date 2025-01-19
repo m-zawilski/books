@@ -19,7 +19,7 @@ const useBooks = () => {
   const pagesPerDay =
     Math.round(
       (totalPagesRead /
-        differenceInDays(new Date(2025, 0, 18), new Date(2025, 0, 0))) *
+        differenceInDays(new Date(2025, 0, 19), new Date(2025, 0, 0))) *
         10
     ) / 10;
 
@@ -30,7 +30,7 @@ const useBooks = () => {
 
   const daysPerBook =
     Math.round(
-      (differenceInDays(new Date(2025, 0, 18), new Date(2025, 0, 0)) /
+      (differenceInDays(new Date(2025, 0, 19), new Date(2025, 0, 0)) /
         totalBooksFinished) *
         10
     ) / 10;

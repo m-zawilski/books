@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  CartesianGrid,
+  CartesianAxis,
   Line,
   ResponsiveContainer,
   Tooltip,
@@ -12,16 +12,17 @@ import useBooks from "@/app/hooks/useBooks";
 import {
   endOfMonth,
   endOfYear,
-  format,
   getDaysInMonth,
   getDaysInYear,
   startOfMonth,
   startOfYear,
+  sub,
 } from "date-fns";
 import useReadingProgress from "@/app/hooks/useReadingProgress";
 import ReadingProgressChartTooltip from "@/app/components/ReadingProgressChartTooltip";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import XAxisTick from "@/app/components/XAxisTick";
 
 const LineChart = dynamic(
   () => import("recharts").then((recharts) => recharts.LineChart),
@@ -38,7 +39,7 @@ const ReadingProgressChart = () => {
 
   const monthViewDomain = [
     startOfMonth(new Date()).valueOf(),
-    endOfMonth(new Date()).valueOf(),
+    sub(endOfMonth(new Date()), { days: 1 }).valueOf(),
   ];
   const yearViewDomain = [
     startOfYear(new Date()).valueOf(),
@@ -75,18 +76,21 @@ const ReadingProgressChart = () => {
             type="number"
             scale="time"
             domain={isMonthView ? monthViewDomain : yearViewDomain}
-            tickFormatter={(value) => format(new Date(value), "dd/MM")}
             allowDataOverflow
+            tick={<XAxisTick />}
+            height={60}
+            interval={isMonthView ? 0 : 15}
           />
+          <CartesianAxis />
           <YAxis
+            tick={false}
+            axisLine={false}
             domain={[
               0,
               Math.round(
-                (bookStatistics.pagesPerDay *
-                  (isMonthView
-                    ? getDaysInMonth(new Date())
-                    : getDaysInYear(new Date()))) /
-                  100
+                isMonthView
+                  ? bookStatistics.totalPagesRead / 80
+                  : getDaysInYear(new Date()) * 0.5
               ) * 100,
             ]}
             allowDataOverflow
