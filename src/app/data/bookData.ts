@@ -54,7 +54,7 @@ const bookData: Record<number, Book> = {
     title: "The Butcher's Masquerade",
     startPage: 1,
     lastPage: 719,
-    currentPage: 2,
+    currentPage: 29,
     startDate: new Date(2025, 0, 19),
     endDate: null,
     imageUrl: "https://m.media-amazon.com/images/I/81GLsXP7XBL._SL1500_.jpg",

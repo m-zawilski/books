@@ -8,7 +8,7 @@ import { format } from "date-fns";
 
 const BookStatistics = () => {
   const { bookStatistics } = useBooks();
-  const { bestDay } = useReadingProgress();
+  const { bestDay, currentDayPages } = useReadingProgress();
 
   const keyToTitle: Record<keyof BookStatistics, string> = {
     totalPagesRead: "Total pages",
@@ -29,9 +29,10 @@ const BookStatistics = () => {
         );
       })}
       <BookStatisticCard
-        value={bestDay.pages.toString()}
+        value={bestDay.pages}
         title={`Most pages (${format(bestDay.date, "dd MMM")})`}
       />
+      <BookStatisticCard value={currentDayPages} title={`Pages today`} />
     </div>
   );
 };

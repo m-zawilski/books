@@ -43,12 +43,15 @@ const useReadingProgress = () => {
     };
   }
 
+  let currentDayPages = 0;
+
   const data: ReadingProgress[] = [
-    ...dailyProgress.map((sum, i) => {
+    ...dailyProgress.map((dayProgress, i) => {
+      currentDayPages = dayProgress.pagesRead;
       return {
-        date: sum.date.valueOf(),
-        pagesRead: sum.pagesRead,
-        totalPagesRead: sum.pagesSum,
+        date: dayProgress.date.valueOf(),
+        pagesRead: dayProgress.pagesRead,
+        totalPagesRead: dayProgress.pagesSum,
         pagesToRead: (i + 1) * PAGES_PER_DAY,
         pagesToReadExtra: Math.round(
           (i + 1) * PAGES_PER_DAY * EXTRA_EFFORT_MULTIPLIER
@@ -92,6 +95,7 @@ const useReadingProgress = () => {
       pages: dailyProgress[bestDayIndex].pagesRead,
       date: dailyProgress[bestDayIndex].date,
     },
+    currentDayPages,
   };
 };
 

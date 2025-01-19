@@ -19,7 +19,7 @@ import {
   sub,
 } from "date-fns";
 import useReadingProgress from "@/app/hooks/useReadingProgress";
-import ReadingProgressChartTooltip from "@/app/components/ReadingProgressChartTooltip";
+import ChartTooltip from "@/app/components/ChartTooltip";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import XAxisTick from "@/app/components/XAxisTick";
@@ -95,7 +95,7 @@ const ReadingProgressChart = () => {
             ]}
             allowDataOverflow
           />
-          <Tooltip content={<ReadingProgressChartTooltip />} />
+          <Tooltip content={<ChartTooltip />} />
         </LineChart>
       </ResponsiveContainer>
     </>
