@@ -1,6 +1,6 @@
 import Book from "@/app/@types/Book";
 
-const bookData: Record<number, Book> = {
+const bookData: Record<string, Book> = {
   1: {
     author: "Brandon Sanderson",
     title: "Rhythm of War",

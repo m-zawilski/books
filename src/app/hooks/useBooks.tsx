@@ -2,7 +2,6 @@
 
 import bookData from "@/app/data/bookData";
 import { differenceInDays } from "date-fns";
-import useReadingProgress from "@/app/hooks/useReadingProgress";
 
 export interface BookStatistics {
   totalPagesRead: number;
