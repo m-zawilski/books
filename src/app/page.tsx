@@ -4,7 +4,7 @@ import ReadingProgressChart from "@/app/components/ReadingProgressChart";
 
 export default function Home() {
   return (
-    <main className="my-12 flex flex-col items-center min-h-screen">
+    <main className="my-12 flex flex-col items-center min-h-screen gap-8">
       <BookStatistics />
       <ReadingProgressChart />
       <BookList />

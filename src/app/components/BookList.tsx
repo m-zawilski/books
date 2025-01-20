@@ -23,11 +23,11 @@ const BookList = () => {
 
   const sortedBooks = Object.entries(bookData).sort(bookSorter);
 
-  const [selectedBookId, setSelectedBookId] = useState<string | undefined>(
+  const [selectedBookId, setSelectedBookId] = useState<string>(
     sortedBooks[0][0]
   );
 
-  const book = selectedBookId ? bookData[selectedBookId] : undefined;
+  const book = bookData[selectedBookId];
 
   return (
     <div className="grid grid-cols-2 w-[90%] h-[320px] md:w-[900px] bg-gray-100 rounded-xl overflow-hidden ">
@@ -44,7 +44,7 @@ const BookList = () => {
               key={id}
               className={`h-16 ${isSelected ? "bg-gray-300" : "bg-gray-200"} text-center relative`}
               onClick={() => {
-                setSelectedBookId(isSelected ? undefined : id);
+                setSelectedBookId(id);
               }}
             >
               {isFinished ? (
@@ -69,7 +69,7 @@ const BookList = () => {
                         r="16"
                         fill="none"
                         className="stroke-current text-gray-200 dark:text-neutral-700"
-                        stroke-width="2"
+                        strokeWidth="2"
                       ></circle>
 
                       <circle
@@ -78,12 +78,10 @@ const BookList = () => {
                         r="16"
                         fill="none"
                         className="stroke-current text-green-600 dark:text-green-500"
-                        stroke-width="2"
-                        stroke-dasharray="100"
-                        stroke-dashoffset={
-                          100 - Math.round(procentBookFinished)
-                        }
-                        stroke-linecap="round"
+                        strokeWidth="2"
+                        strokeDasharray="100"
+                        strokeDashoffset={100 - Math.round(procentBookFinished)}
+                        strokeLinecap="round"
                       ></circle>
                     </svg>
 
@@ -100,7 +98,7 @@ const BookList = () => {
           );
         })}
       </div>
-      <div>{book && <BookCard book={book} />}</div>
+      <BookCard book={book} />
     </div>
   );
 };

@@ -135,7 +135,13 @@ const bookDataByDay: BookDataByDay = {
       },
       {
         bookId: 5,
-        count: 144,
+        count: 159,
+      },
+    ],
+    [
+      {
+        bookId: 5,
+        count: 68,
       },
     ],
   ],

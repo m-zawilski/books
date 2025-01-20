@@ -13,15 +13,15 @@ function ChartTooltip({
   active,
 }: TooltipProps<ValueType, NameType>) {
   const keyToTitle: Record<string, string> = {
-    totalPagesRead: "Total pages",
+    totalPagesRead: "Total read",
     pagesToRead: "Minimal goal",
     pagesToReadExtra: "Optimal goal",
   };
 
   if (active && payload && payload.length > 0) {
     return (
-      <div className="bg-gray-100">
-        <p>{format(label, "dd MMM yyyy")}</p>
+      <div className="bg-gray-100 p-2 rounded-xl">
+        <p className="font-bold">{format(label, "dd MMM yyyy")}</p>
         {payload.map((payload) => (
           <p
             key={payload.name}
