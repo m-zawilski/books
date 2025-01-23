@@ -54,7 +54,7 @@ const bookData: Record<string, Book> = {
     title: "The Butcher's Masquerade",
     startPage: 1,
     lastPage: 719,
-    currentPage: 228,
+    currentPage: 577,
     startDate: new Date(2025, 0, 19),
     endDate: null,
     imageUrl: "https://m.media-amazon.com/images/I/81GLsXP7XBL._SL1500_.jpg",
@@ -84,6 +84,18 @@ const bookData: Record<string, Book> = {
     imageUrl: "https://m.media-amazon.com/images/I/619ncDeLijL._SL1500_.jpg",
     language: "en",
     type: "design",
+  },
+  8: {
+    author: "Marie Lu",
+    title: "Patriota",
+    startPage: 11,
+    lastPage: 377,
+    currentPage: 20,
+    startDate: new Date(2025, 0, 22),
+    endDate: null,
+    imageUrl: "https://m.media-amazon.com/images/I/91N2bbgpzGL._SL1500_.jpg",
+    language: "pl",
+    type: "young adult",
   },
 };
 

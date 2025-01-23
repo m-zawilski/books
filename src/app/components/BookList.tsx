@@ -30,7 +30,7 @@ const BookList = () => {
   const book = bookData[selectedBookId];
 
   return (
-    <div className="grid grid-cols-2 w-[90%] h-[320px] md:w-[900px] bg-gray-100 rounded-xl overflow-hidden ">
+    <div className="grid grid-cols-1 md:grid-cols-2 w-[90%] md:h-[320px] md:w-[900px] bg-gray-100 rounded-xl overflow-hidden ">
       <div className="flex flex-col overflow-scroll">
         {sortedBooks.map(([id, book]) => {
           const totalPages = book.lastPage - book.startPage;

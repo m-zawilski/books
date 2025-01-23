@@ -15,8 +15,9 @@ import {
   endOfYear,
   format,
   getDaysInYear,
-  startOfMonth,
+  getMonth,
   startOfYear,
+  sub,
 } from "date-fns";
 import useReadingProgress from "@/app/hooks/useReadingProgress";
 import ChartTooltip from "@/app/components/ChartTooltip";
@@ -36,13 +37,15 @@ const LineChart = dynamic(
 const ReadingProgressChart = () => {
   const { bookStatistics } = useBooks();
   const { data } = useReadingProgress();
-  const [monthFilter, setMonthFilter] = useState<number | undefined>(undefined);
+  const [monthFilter, setMonthFilter] = useState<number | undefined>(
+    getMonth(new Date())
+  );
 
   const getXDomain = () => {
     if (monthFilter !== undefined) {
       return [
-        startOfMonth(new Date(2025, monthFilter, 1)).valueOf(),
-        endOfMonth(new Date(2025, monthFilter, 1)).valueOf(),
+        new Date(2025, monthFilter, 1).valueOf(),
+        sub(endOfMonth(new Date(2025, monthFilter, 1)), { days: 1 }).valueOf(),
       ];
     } else {
       return [
@@ -105,7 +108,7 @@ const ReadingProgressChart = () => {
           <YAxis
             tick={false}
             axisLine={false}
-            // TODO revice the domain for months after January
+            // TODO revise the domain for months after January
             domain={[
               0,
               Math.round(
