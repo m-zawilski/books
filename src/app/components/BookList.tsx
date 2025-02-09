@@ -42,7 +42,7 @@ const BookList = () => {
           return (
             <button
               key={id}
-              className={`h-16 ${isSelected ? "bg-gray-300" : "bg-gray-200"} text-center relative`}
+              className={`min-h-11 ${isSelected ? "bg-gray-300" : "bg-gray-200"} text-center relative`}
               onClick={() => {
                 setSelectedBookId(id);
               }}

@@ -170,6 +170,75 @@ const bookDataByDay: BookDataByDay = {
         count: 29,
       },
     ],
+    [
+      {
+        bookId: 6,
+        count: 1,
+      },
+      {
+        bookId: 8,
+        count: 16,
+      },
+    ],
+    [],
+    [
+      {
+        bookId: 6,
+        count: 4,
+      },
+      {
+        bookId: 9,
+        count: 47,
+      },
+    ],
+    [],
+    [
+      {
+        bookId: 9,
+        count: 35,
+      },
+    ],
+    [
+      {
+        bookId: 9,
+        count: 39,
+      },
+    ],
+    [
+      {
+        bookId: 9,
+        count: 19,
+      },
+    ],
+    [
+      {
+        bookId: 9,
+        count: 22,
+      },
+    ],
+    [],
+    [],
+    [
+      {
+        bookId: 9,
+        count: 22,
+      },
+    ],
+    [],
+    [],
+    [
+      {
+        bookId: 10,
+        count: 78,
+      },
+    ],
+    [],
+    [
+      {
+        bookId: 9,
+        count: 3,
+      },
+    ],
   ],
 };
 
