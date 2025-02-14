@@ -102,7 +102,7 @@ const bookData: Record<string, Book> = {
     title: "The Eye of the Bedlam Bride",
     startPage: 1,
     lastPage: 719,
-    currentPage: 188,
+    currentPage: 273,
     startDate: new Date(2025, 0, 26),
     endDate: null,
     imageUrl: "https://m.media-amazon.com/images/I/81JURchysyL._SL1500_.jpg",
