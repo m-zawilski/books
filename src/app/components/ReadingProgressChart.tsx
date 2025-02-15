@@ -8,7 +8,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import useBooks from "@/app/hooks/useBooks";
 import {
   differenceInDays,
   endOfMonth,
@@ -19,12 +18,12 @@ import {
   startOfYear,
   sub,
 } from "date-fns";
-import useReadingProgress from "@/app/hooks/useReadingProgress";
 import ChartTooltip from "@/app/components/ChartTooltip";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import XAxisTick from "@/app/components/XAxisTick";
 import { range } from "d3-array";
+import { add } from "date-fns/fp";
 
 const LineChart = dynamic(
   () => import("recharts").then((recharts) => recharts.LineChart),
@@ -34,9 +33,53 @@ const LineChart = dynamic(
   }
 );
 
-const ReadingProgressChart = () => {
-  const { bookStatistics } = useBooks();
-  const { data } = useReadingProgress();
+interface ReadingProgress {
+  date: number;
+  pagesRead?: number;
+  totalPagesRead?: number;
+  pagesToRead?: number;
+  pagesToReadExtra?: number;
+}
+
+const PAGES_PER_DAY = 30;
+const EXTRA_EFFORT_MULTIPLIER = 1.333333;
+
+const ReadingProgressChart = ({ bookDataByDay }) => {
+  const data: ReadingProgress[] = [
+    ...bookDataByDay.map((dayProgress, i) => {
+      return {
+        date: dayProgress.date.valueOf(),
+        pagesRead: dayProgress.pagesRead,
+        totalPagesRead: dayProgress.total,
+        pagesToRead: (i + 1) * PAGES_PER_DAY,
+        pagesToReadExtra: Math.round(
+          (i + 1) * PAGES_PER_DAY * EXTRA_EFFORT_MULTIPLIER
+        ),
+      };
+    }),
+    ...new Array(
+      differenceInDays(
+        endOfYear(new Date()),
+        bookDataByDay[bookDataByDay.length - 1].date
+      )
+    )
+      .fill(0)
+      .map((_, i) => {
+        return {
+          date: add(
+            { days: i + 1 },
+            bookDataByDay[bookDataByDay.length - 1].date
+          ).valueOf(),
+          pagesToRead: (bookDataByDay.length + i + 1) * PAGES_PER_DAY,
+          pagesToReadExtra: Math.round(
+            (bookDataByDay.length + i + 1) *
+              PAGES_PER_DAY *
+              EXTRA_EFFORT_MULTIPLIER
+          ),
+        };
+      }),
+  ];
+
   const [monthFilter, setMonthFilter] = useState<number | undefined>(
     getMonth(new Date())
   );
@@ -114,7 +157,7 @@ const ReadingProgressChart = () => {
               Math.round(
                 monthFilter !== undefined
                   ? Math.max(
-                      bookStatistics.totalPagesRead / 80,
+                      bookDataByDay.at(-1).total / 80,
                       differenceInDays(
                         new Date(2025, monthFilter + 1, 1),
                         new Date(2025, 0, 0)

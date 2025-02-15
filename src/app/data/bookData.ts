@@ -1,138 +1,74 @@
-import Book from "@/app/@types/Book";
+import { supabase } from "@/utils/supabase/client";
+import { addDays, differenceInDays, parse } from "date-fns";
 
-const bookData: Record<string, Book> = {
-  1: {
-    author: "Brandon Sanderson",
-    title: "Rhythm of War",
-    startPage: 737,
-    lastPage: 1218,
-    currentPage: 1218,
-    startDate: new Date(2024, 11, 13),
-    endDate: new Date(2025, 0, 5),
-    imageUrl: "https://m.media-amazon.com/images/I/81ZR25hH7eL._SL1500_.jpg",
-    language: "en",
-    type: "fantasy",
-  },
-  2: {
-    author: "Matt Dinniman",
-    title: "Carl's Doomsday Scenario",
-    startPage: 1,
-    lastPage: 353,
-    currentPage: 353,
-    startDate: new Date(2025, 0, 5),
-    endDate: new Date(2025, 0, 10),
-    imageUrl: "https://m.media-amazon.com/images/I/816CCRv3GYL._SL1500_.jpg",
-    language: "en",
-    type: "science_fiction",
-  },
-  3: {
-    author: "Matt Dinniman",
-    title: "The Dungeon Anarchist's Cookbook",
-    startPage: 1,
-    lastPage: 522,
-    currentPage: 522,
-    startDate: new Date(2025, 0, 11),
-    endDate: new Date(2025, 0, 15),
-    imageUrl: "https://m.media-amazon.com/images/I/81Tb1i-ozpL._SL1500_.jpg",
-    language: "en",
-    type: "science_fiction",
-  },
-  4: {
-    author: "Matt Dinniman",
-    title: "The Gate of the Feral Gods",
-    startPage: 1,
-    lastPage: 571,
-    currentPage: 571,
-    startDate: new Date(2025, 0, 15),
-    endDate: new Date(2025, 0, 19),
-    imageUrl: "https://m.media-amazon.com/images/I/81X+5EyPKvS._SL1500_.jpg",
-    language: "en",
-    type: "science_fiction",
-  },
-  5: {
-    author: "Matt Dinniman",
-    title: "The Butcher's Masquerade",
-    startPage: 1,
-    lastPage: 719,
-    currentPage: 719,
-    startDate: new Date(2025, 0, 19),
-    endDate: new Date(2025, 0, 23),
-    imageUrl: "https://m.media-amazon.com/images/I/81GLsXP7XBL._SL1500_.jpg",
-    language: "en",
-    type: "science_fiction",
-  },
-  6: {
-    author: "Matthew Walker",
-    title: "Das Große Buch vom Schlaf",
-    startPage: 74,
-    lastPage: 466,
-    currentPage: 83,
-    startDate: new Date(2024, 10, 9),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/71Hi2Xb5P4L._SL1500_.jpg",
-    language: "de",
-    type: "lifestyle",
-  },
-  7: {
-    author: "Don Norman",
-    title: "The Design of Everyday Things",
-    startPage: 57,
-    lastPage: 298,
-    currentPage: 57,
-    startDate: new Date(2024, 11, 1),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/619ncDeLijL._SL1500_.jpg",
-    language: "en",
-    type: "design",
-  },
-  8: {
-    author: "Marie Lu",
-    title: "Patriota",
-    startPage: 11,
-    lastPage: 377,
-    currentPage: 65,
-    startDate: new Date(2025, 0, 22),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/91N2bbgpzGL._SL1500_.jpg",
-    language: "pl",
-    type: "young adult",
-  },
-  9: {
-    author: "Matt Dinniman",
-    title: "The Eye of the Bedlam Bride",
-    startPage: 1,
-    lastPage: 719,
-    currentPage: 322,
-    startDate: new Date(2025, 0, 26),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/81JURchysyL._SL1500_.jpg",
-    language: "en",
-    type: "science_fiction",
-  },
-  10: {
-    author: "Alex Xu",
-    title: "System Design Interview - An Insider's Guide: Volume 2",
-    startPage: 12,
-    lastPage: 605,
-    currentPage: 90,
-    startDate: new Date(2025, 1, 4),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/51lJolln98L._SL1429_.jpg",
-    language: "en",
-    type: "programming",
-  },
-  11: {
-    author: "Alex Xu",
-    title: "System Design Interview - An Insider's Guide",
-    startPage: 1,
-    lastPage: 310,
-    currentPage: 35,
-    startDate: new Date(2025, 1, 14),
-    endDate: null,
-    imageUrl: "https://m.media-amazon.com/images/I/51vZ6t5W4gL._SL1499_.jpg",
-    language: "en",
-    type: "programming",
-  },
-};
+export async function fetchBookData() {
+  // TODO cleanup & add types
+  const response = await supabase
+    .from("books")
+    .select(
+      `
+        id,
+        title,
+        start_page,
+        last_page,
+        language,
+        genre,
+        image_url,
+        created_at,
+        updated_at,
+        authors ( id, first_name, last_name ),
+        book_readings ( start_date, end_date ),
+        reads_on_date ( current_page:end_pages.max() )
+      `
+    )
+    .order("updated_at", { ascending: false });
 
-export default bookData;
+  return response.data;
+}
+
+export async function fetchBookByDayData() {
+  const response = await supabase
+    .from("reads_on_date")
+    .select(
+      `
+        end_pages:end_pages.sum(),
+        start_pages:start_pages.sum(),
+        date
+      `
+    )
+    .order("date")
+    .gte("date", "2025-01-01");
+
+  let currentDay = new Date(2025, 0, 1);
+  let currentSum = 0;
+  const arr = [];
+
+  if (response.data) {
+    for (let i = 0; i < response.data.length; i++) {
+      const dataDay = response.data[i].date;
+      while (
+        differenceInDays(
+          currentDay,
+          parse(dataDay, "yyyy-MM-dd", new Date())
+        ) !== 0
+      ) {
+        arr.push({
+          date: currentDay,
+          total: currentSum,
+          pagesRead: 0,
+        });
+        currentDay = addDays(currentDay, 1);
+      }
+      currentSum =
+        currentSum + response.data[i].end_pages - response.data[i].start_pages;
+      arr.push({
+        date: parse(dataDay, "yyyy-MM-dd", new Date()),
+        total: currentSum,
+        pagesRead: response.data[i].end_pages - response.data[i].start_pages,
+      });
+      currentDay = addDays(currentDay, 1);
+    }
+  }
+
+  return arr;
+}
