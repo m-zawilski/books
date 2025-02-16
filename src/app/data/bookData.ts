@@ -1,9 +1,10 @@
-import { supabase } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/server";
 import { addDays, differenceInDays, parse } from "date-fns";
 
 export async function fetchBookData() {
   // TODO cleanup & add types
-  const response = await supabase
+  const supabaseClient = await supabase();
+  const response = await supabaseClient
     .from("books")
     .select(
       `
@@ -27,7 +28,8 @@ export async function fetchBookData() {
 }
 
 export async function fetchBookByDayData() {
-  const response = await supabase
+  const supabaseClient = await supabase();
+  const response = await supabaseClient
     .from("reads_on_date")
     .select(
       `

@@ -44,7 +44,10 @@ const BookStatistics = ({ bookData, bookDataByDay }) => {
       }
       return acc;
     }, bookDataByDay[0]),
-    currentDay: bookDataByDay.at(-1).pagesRead,
+    currentDay:
+      differenceInDays(bookDataByDay.at(-1).date, new Date()) === 0
+        ? bookDataByDay.at(-1).pagesRead
+        : 0,
   };
 
   const keyToTitle: Record<keyof BookStatistics, string> = {
@@ -55,8 +58,6 @@ const BookStatistics = ({ bookData, bookDataByDay }) => {
     bestDay: `Most pages (${format(bookStatistics.bestDay.date, "dd MMM")})`,
     currentDay: "Pages today",
   };
-
-  console.log(bookStatistics);
 
   return (
     <div className="flex flex-wrap gap-3 m-4 justify-center">
