@@ -157,7 +157,7 @@ const ReadingProgressChart = ({ bookDataByDay }) => {
               Math.round(
                 monthFilter !== undefined
                   ? Math.max(
-                      bookDataByDay.at(-1).total / 80,
+                      (bookDataByDay.at(-1)?.total || 0) / 80,
                       differenceInDays(
                         new Date(2025, monthFilter + 1, 1),
                         new Date(2025, 0, 0)

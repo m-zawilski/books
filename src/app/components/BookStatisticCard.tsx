@@ -3,7 +3,7 @@ interface Props {
   title: string;
 }
 
-const BookStatisticCard = (props: Props) => {
+function BookStatisticCard(props: Props) {
   const { value, title } = props;
 
   return (
@@ -12,6 +12,6 @@ const BookStatisticCard = (props: Props) => {
       <p className="text-center text-sm">{title}</p>
     </div>
   );
-};
+}
 
 export default BookStatisticCard;

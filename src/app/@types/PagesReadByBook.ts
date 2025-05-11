@@ -1,4 +1,4 @@
 export default interface PagesReadByBook {
-  bookId: number;
+  book_id: number;
   count: number;
 }

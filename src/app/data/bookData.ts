@@ -1,5 +1,9 @@
+"use server";
+
 import { supabase } from "@/utils/supabase/server";
 import { addDays, differenceInDays, parse } from "date-fns";
+import { ReadOnDateDTO } from "@/app/@types/ReadOnDateDTO";
+import { revalidatePath } from "next/cache";
 
 export async function fetchBookData() {
   // TODO cleanup & add types
@@ -73,4 +77,28 @@ export async function fetchBookByDayData() {
   }
 
   return arr;
+}
+
+export async function updateReadOnDate(readOnDate: ReadOnDateDTO) {
+  const supabaseClient = await supabase();
+
+  const response = await supabaseClient
+    .from("reads_on_date")
+    .update({
+      end_pages: readOnDate.end_pages,
+      updated_at: new Date(),
+    })
+    .match({ book_id: readOnDate.book_id, date: readOnDate.date });
+
+  if (response.status === 204) {
+    await supabaseClient.from("reads_on_date").insert({
+      start_pages: readOnDate.start_pages,
+      end_pages: readOnDate.end_pages,
+      date: readOnDate.date,
+      updated_at: new Date(),
+      book_id: readOnDate.book_id,
+    });
+  }
+
+  revalidatePath("/");
 }

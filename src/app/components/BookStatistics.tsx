@@ -13,13 +13,14 @@ interface BookStatistics {
 }
 
 const BookStatistics = ({ bookData, bookDataByDay }) => {
-  const totalPagesRead = bookDataByDay.at(-1).total;
+  const totalPagesRead = bookDataByDay.at(-1)?.total || 0;
 
   const pagesPerDay = (
     totalPagesRead / differenceInDays(new Date(), new Date(2025, 0, 0))
   ).toFixed(1);
 
-  const totalBooksFinished = bookData.reduce((acc, book) => {
+  // TODO refactor
+  const totalBooksFinished = bookData?.reduce((acc, book) => {
     const totalPages = book.last_page - book.start_page;
     const totalReadPages = book.reads_on_date[0].current_page - book.start_page;
     const procentBookFinished = (totalReadPages / totalPages) * 100;

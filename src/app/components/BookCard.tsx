@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Book from "@/app/@types/Book";
+import BookReadOnDateForm from "@/app/components/BookReadOnDateForm";
 
-const BookCard = (props) => {
+interface Props {
+  book: Book;
+}
+
+function BookCard(props: Props) {
   const { book } = props;
 
-  if (!book) return;
+  if (!book) return null;
 
   return (
     <div className="bg-gray-100 h-[100%] grid grid-cols-2 ">
@@ -18,10 +23,11 @@ const BookCard = (props) => {
           <p>Start page: {book.start_page}</p>
           <p>Last page: {book.last_page}</p>
           <p>Current page: {book.reads_on_date[0].current_page}</p>
+          {!book.isFinished && <BookReadOnDateForm book={book} />}
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default BookCard;
